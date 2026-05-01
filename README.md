@@ -1,16 +1,82 @@
-# React + Vite
+# FINMATE: AI-Powered Financial Intelligence Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FINMATE is a high-performance personal finance dashboard designed to transform raw bank statements into actionable insights. Utilizing Isolation Forests for anomaly detection and NLP-driven heuristics for categorization, FINMATE provides a modern, interactive experience for tracking and analyzing your spending habits.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Dynamic Data Ingestion:** Robust CSV parsing for various bank statement formats with automated column mapping.
+- **Smart Categorization:** Advanced NLP heuristics that automatically group transactions into categories like Food, Utilities, Shopping, and more.
+- **Anomaly Detection:** Utilizes **Isolation Forests** (Machine Learning) to identify unusual spending patterns and potential financial risks.
+- **Interactive Visualizations:** Deep-dive into your finances with monthly trends, category breakdowns, and historical expenditure charts.
+- **Manual Adjustments:** Add manual transactions for cash expenses or corrections to keep your records perfectly accurate.
+- **Real-time Analytics:** Instant KPI updates (Total Income, Expenses, Savings Rate) upon data upload or modification.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Backend
+- **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
+- **Data Processing:** [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/)
+- **Machine Learning:** [Scikit-learn](https://scikit-learn.org/)
+- **Forecasting:** Statsmodels (ARIMA)
 
-## Expanding the ESLint configuration
+### Frontend
+- **Framework:** [React](https://react.dev/) (Vite)
+- **Styling:** Tailwind CSS
+- **Charts:** [Recharts](https://recharts.org/)
+- **Icons:** Lucide React
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/finmate.git
+   cd finmate
+   ```
+
+2. **Setup the Backend:**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   pip install -r requirements.txt
+   uvicorn app.main:app --reload
+   ```
+
+3. **Setup the Frontend:**
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
+
+## 📂 Project Structure
+
+```text
+├── backend/
+│   ├── app/
+│   │   ├── ml/             # ML Models (Anomalies, Categorization)
+│   │   ├── routers/        # API Endpoints
+│   │   ├── services/       # Data processing logic
+│   │   └── data/           # Persistent JSON storage
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── components/     # UI Components (Charts, Tables)
+│   │   ├── services/       # API integration
+│   │   └── App.jsx         # Main Dashboard logic
+│   └── tailwind.config.js
+└── docs/                   # Detailed architecture & API guides
+```
+
+## 🛡️ Security & Privacy
+FINMATE is designed with privacy in mind. In its current version, data is stored locally in the `backend/app/data/` directory. All processing happens on your own machine/server, ensuring your sensitive financial data never leaves your control.
+
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
