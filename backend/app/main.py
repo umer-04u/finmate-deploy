@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
+
 try:
     from app.routers import transactions, analytics
 except ImportError:
@@ -11,11 +14,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS mapping to allow Vite React Frontend (Port 5173 by default)
+# CORS mapping
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "*" # Replace in production
+    "*" # Replace with your Vercel URL in production for better security
 ]
 
 app.add_middleware(
@@ -30,12 +33,15 @@ app.add_middleware(
 app.include_router(transactions.router, prefix="/api/transactions", tags=["Transactions"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"])
 
-@app.get("/")
+# Serve Static Files (for combined deployment)
+# To use this: Build frontend, copy 'dist' content to 'backend/static'
+if os.path.exists("static"):
+    app.mount("/", StaticFiles(directory="static", html=True), name="static")
+
+@app.get("/api/health")
 def read_root():
-    return {"message": "FINMATE API operational. Use /docs to view Swagger UI."}
+    return {"status": "ok", "message": "FINMATE API operational."}
 
 if __name__ == "__main__":
     import uvicorn
-    # When running from within app/, we need to tell uvicorn to look at app.main if we are in the root
-    # or just main if we are inside app. 
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

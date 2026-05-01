@@ -111,6 +111,7 @@ def load_existing_data():
     return {"transactions": [], "summary": {}}
 
 def save_data(data):
+    os.makedirs('app/data', exist_ok=True)
     with open('app/data/latest_db.json', 'w') as f:
         json.dump(data, f)
 
