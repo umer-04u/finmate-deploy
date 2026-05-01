@@ -41,7 +41,7 @@ const AnomaliesAlert = ({ anomalies, forecastInsight }) => {
             <div key={idx} className="bg-darkCard rounded-xl p-5 border-l-4 border-rose-500 shadow-md flex flex-col gap-2">
               <div className="flex justify-between items-start">
                   <span className="font-semibold text-textPrimary">{anomaly.description}</span>
-                  <span className="text-rose-400 font-bold font-mono">-${Math.abs(anomaly.amount).toFixed(2)}</span>
+                  <span className="text-rose-400 font-bold font-mono">-₹{Math.abs(anomaly.amount).toFixed(2)}</span>
               </div>
               <div className="flex gap-2 text-xs text-textSecondary uppercase tracking-widest mt-1">
                   <span>{anomaly.date}</span>

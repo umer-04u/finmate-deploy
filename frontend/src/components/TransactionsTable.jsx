@@ -43,13 +43,12 @@ const TransactionsTable = ({ transactions }) => {
                      {tx.category}
                   </span>
                 </td>
-                <td
-  className={`px-6 py-4 text-sm font-semibold whitespace-nowrap ${
-    tx.type === "income" ? "text-emerald-400" : "text-rose-400"
-  }`}
->
-  {tx.type === "income" ? "+" : "-"}${Math.abs(tx.amount).toFixed(2)}
-</td>
+                <td className={`px-6 py-4 text-sm font-semibold whitespace-nowrap ${
+                  tx.type === "income" ? "text-emerald-400" : "text-rose-400"
+                }`}>
+                  {tx.type === "income" ? "+" : "-"}₹{Math.abs(tx.amount).toFixed(2)}
+                </td>
+
                 <td className="px-6 py-4 text-sm flex justify-center">
                   {tx.is_anomaly ? (
                     <div className="flex items-center text-rose-400 bg-rose-400/10 px-2 py-1 rounded border border-rose-400/20" title={tx.anomaly_reason}>

@@ -30,3 +30,13 @@ export const getInsights = async () => {
     const response = await apiClient.get('/api/analytics/insights');
     return response.data;
 };
+
+export const clearTransactions = async () => {
+    const response = await apiClient.delete('/api/transactions/');
+    return response.data;
+};
+
+export const addManualTransaction = async (transaction) => {
+    const response = await apiClient.post('/api/transactions/manual', transaction);
+    return response.data;
+};

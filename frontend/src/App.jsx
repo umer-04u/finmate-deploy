@@ -3,19 +3,21 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
   LineChart, Line
 } from 'recharts';
-import { UploadCloud, Activity, DollarSign, Wallet, ShieldAlert } from 'lucide-react';
+import { UploadCloud, Activity, DollarSign, Wallet, ShieldAlert, Trash2, Plus } from 'lucide-react';
 import axios from 'axios';
 
 import DashboardCard from './components/DashboardCard';
 import TransactionsTable from './components/TransactionsTable';
 import AnomaliesAlert from './components/AnomaliesAlert';
-import { uploadTransactions, getDashboardAnalytics } from './services/api';
+import ManualEntryModal from './components/ManualEntryModal';
+import { uploadTransactions, getDashboardAnalytics, clearTransactions } from './services/api';
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [analytics, setAnalytics] = useState(null);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Auto-fetch if DB exists in phase 1 (optional)
   useEffect(() => {
@@ -26,12 +28,39 @@ function App() {
     try {
       const res = await getDashboardAnalytics();
       if (res.status === 'success') {
-          setAnalytics(res);
+          refreshData(res);
       }
     } catch(err) {
       console.log('Analytics unavailable initially.');
     }
   }
+
+  // Helper to refresh everything
+  const refreshData = (newData) => {
+    // Backend now returns the full state in 'data'
+    if (newData && newData.transactions) {
+      setData({ ...newData });
+      setAnalytics({ ...newData });
+    } else {
+      // Fallback for direct dashboard fetch
+      fetchAnalytics();
+    }
+  };
+
+  const handleClearAll = async () => {
+    if (!window.confirm('Are you sure you want to clear all transactions? This cannot be undone.')) return;
+    
+    setLoading(true);
+    try {
+      await clearTransactions();
+      setData(null);
+      setAnalytics(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -41,13 +70,14 @@ function App() {
     setError('');
     try {
       const result = await uploadTransactions(file);
-      setData(result.data);
-      // Re-fetch aggregate charts
-      fetchAnalytics();
+      if (result.status === 'success') {
+        refreshData(result.data);
+      }
     } catch (err) {
       setError(err.response?.data?.detail || err.message);
     } finally {
       setLoading(false);
+      e.target.value = null; // Clear input to allow re-uploading same file if needed
     }
   };
 
@@ -66,12 +96,36 @@ function App() {
              <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">FINMATE</h1>
           </div>
           
-          <label className="cursor-pointer bg-accentBlue hover:bg-blue-600 transition-colors px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20">
-            {loading ? <span className="animate-pulse">Analyzing ML...</span> : <><UploadCloud size={20}/> Upload CSV</>}
-            <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} disabled={loading} />
-          </label>
+          <div className="flex items-center gap-4">
+            {(data || analytics) && (
+              <button 
+                onClick={handleClearAll}
+                className="text-rose-400 hover:bg-rose-500/10 transition-colors px-4 py-2.5 rounded-lg font-medium flex items-center gap-2 border border-rose-500/20"
+              >
+                <Trash2 size={18}/> Clear All
+              </button>
+            )}
+
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-slate-800 hover:bg-slate-700 transition-colors px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 border border-slate-700"
+            >
+              <Plus size={20}/> Manual Entry
+            </button>
+
+            <label className="cursor-pointer bg-accentBlue hover:bg-blue-600 transition-colors px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20">
+              {loading ? <span className="animate-pulse">Analyzing ML...</span> : <><UploadCloud size={20}/> Upload CSV</>}
+              <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} disabled={loading} />
+            </label>
+          </div>
         </div>
       </header>
+
+      <ManualEntryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSuccess={refreshData}
+      />
 
       {/* Main Content Dashboard */}
       <main className="max-w-7xl mx-auto px-6 mt-10 space-y-10">
@@ -99,13 +153,13 @@ function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               <DashboardCard 
                 title="Total Income" 
-                value={`$${data ? data.summary.total_income.toFixed(2) : '...'}`}
+                value={`₹${data ? data.summary.total_income.toFixed(2) : '...'}`}
                 icon={DollarSign}
                 colorClass="bg-emerald-500/20"
               />
               <DashboardCard 
                 title="Total Expenses" 
-                value={`$${data ? data.summary.total_expenses.toFixed(2) : '...'}`}
+                value={`₹${data ? data.summary.total_expenses.toFixed(2) : '...'}`}
                 icon={Wallet}
                 colorClass="bg-rose-500/20"
               />
@@ -137,7 +191,7 @@ function App() {
                               <LineChart data={analytics.monthly_trend}>
                                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                  <XAxis dataKey="month" stroke="#94A3B8" fontSize={12} tickLine={false} axisLine={false} />
-                                 <YAxis stroke="#94A3B8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`$${v}`} />
+                                 <YAxis stroke="#94A3B8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`₹${v}`} />
                                  <Tooltip 
                                     contentStyle={{backgroundColor: '#0F172A', border: '1px solid #334155', borderRadius: '8px'}}
                                     itemStyle={{color: '#3B82F6', fontWeight: 600}}
@@ -157,7 +211,7 @@ function App() {
                            <ResponsiveContainer width="100%" height="100%">
                                <BarChart data={chartData} layout="vertical" margin={{ left: 40 }}>
                                  <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                                 <XAxis type="number" stroke="#94A3B8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`$${v}`}/>
+                                 <XAxis type="number" stroke="#94A3B8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`₹${v}`}/>
                                  <YAxis type="category" dataKey="name" stroke="#F8FAFC" fontSize={12} tickLine={false} axisLine={false} />
                                  <Tooltip 
                                     cursor={{fill: '#334155', opacity: 0.4}}
