@@ -50,10 +50,6 @@ def merge_and_process_transactions(new_df: pd.DataFrame, user_id: str) -> dict:
     if "clean_description" in combined_df.columns:
         combined_df = combined_df.drop(columns=["clean_description"])
     
-    # Ensure id column exists and replace NaN with None for new records
-    if 'id' in combined_df.columns:
-        combined_df['id'] = combined_df['id'].replace({np.nan: None})
-    
     transactions_list = combined_df.to_dict(orient='records')
     # Save to Supabase and get the records back (with IDs)
     transactions_list = save_transactions(transactions_list, user_id)

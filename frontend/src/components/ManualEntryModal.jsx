@@ -104,6 +104,7 @@ const ManualEntryModal = ({ isOpen, onClose, onSuccess }) => {
                 <input
                     type="number"
                     step="0.01"
+                    inputMode="decimal"
                     placeholder="0.00"
                     required
                     value={formData.amount}

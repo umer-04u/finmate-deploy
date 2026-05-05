@@ -1,3 +1,5 @@
+import uuid
+import numpy as np
 from app.utils.supabase_client import supabase, supabase_admin
 
 # Use admin client for DB operations to bypass RLS on the server side
@@ -14,9 +16,10 @@ def save_transactions(transactions: list, user_id: str):
     cleaned_txs = []
     for tx in transactions:
         tx['user_id'] = user_id
-        # Remove 'id' if it's None, empty string, or nan so Supabase generates it
-        if 'id' in tx and (tx['id'] is None or tx['id'] == '' or (isinstance(tx['id'], float) and np.isnan(tx['id']))):
-            del tx['id']
+        # Generate a UUID if ID is None, empty, or NaN to avoid Supabase null constraint errors in batch
+        is_null_id = 'id' not in tx or tx['id'] is None or tx['id'] == '' or (isinstance(tx['id'], float) and np.isnan(tx['id']))
+        if is_null_id:
+            tx['id'] = str(uuid.uuid4())
         cleaned_txs.append(tx)
 
     response = db_client.table("transactions").upsert(cleaned_txs).execute()
