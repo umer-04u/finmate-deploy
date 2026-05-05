@@ -112,12 +112,20 @@ def generate_smart_description(raw_desc, category, tx_type):
     return cleaned.title() if cleaned else "General Transaction"
 
 
-def categorize_transactions(df: pd.DataFrame) -> pd.DataFrame:
+def categorize_transactions(df: pd.DataFrame, learned_mappings: dict = None) -> pd.DataFrame:
     # 1. Clean for matching
     df["clean_description"] = df["description"].apply(clean_text)
 
     # 2. Get Category (Passing both for better matching)
-    df["category"] = df.apply(lambda r: rule_category(r["clean_description"], r["description"]), axis=1)
+    def get_final_category(row):
+        clean = row["clean_description"]
+        # Priority 1: User learned mappings
+        if learned_mappings and clean in learned_mappings:
+            return learned_mappings[clean]
+        # Priority 2: Rules
+        return rule_category(clean, row["description"])
+
+    df["category"] = df.apply(get_final_category, axis=1)
 
     # 3. Determine Type (Respecting Manual Input)
     def determine_type(row):
@@ -147,6 +155,9 @@ def categorize_transactions(df: pd.DataFrame) -> pd.DataFrame:
 
     df["amount"] = pd.to_numeric(df["amount"], errors="coerce").fillna(0)
     df["type"] = df.apply(determine_type, axis=1)
+
+    # Store absolute value for amount now that type is determined
+    df["amount"] = df["amount"].abs()
 
     # 4. Generate User-Friendly Description
     df["original_description"] = df["description"]
