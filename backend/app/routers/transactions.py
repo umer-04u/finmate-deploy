@@ -9,6 +9,7 @@ class ManualTransaction(BaseModel):
     date: str
     description: str
     amount: float
+    type: str = "expense"
 
 @router.delete("/")
 async def reset_transactions(user=Depends(get_current_user)):

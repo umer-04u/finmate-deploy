@@ -11,12 +11,15 @@ def save_transactions(transactions: list, user_id: str):
     if not transactions:
         return []
     
+    cleaned_txs = []
     for tx in transactions:
         tx['user_id'] = user_id
-        if 'id' in tx and not tx['id']:
+        # Remove 'id' if it's None, empty string, or nan so Supabase generates it
+        if 'id' in tx and (tx['id'] is None or tx['id'] == '' or (isinstance(tx['id'], float) and np.isnan(tx['id']))):
             del tx['id']
+        cleaned_txs.append(tx)
 
-    response = db_client.table("transactions").upsert(transactions).execute()
+    response = db_client.table("transactions").upsert(cleaned_txs).execute()
     return response.data
 
 def delete_all_transactions(user_id: str):
