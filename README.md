@@ -64,7 +64,7 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 │   │   ├── ml/             # ML Models (Anomalies, Categorization)
 │   │   ├── routers/        # API Endpoints
 │   │   ├── services/       # Data processing logic
-│   │   └── data/           # Persistent JSON storage
+│   │   └── utils/          # Supabase and Auth utilities
 │   └── requirements.txt
 ├── frontend/
 │   ├── src/
@@ -76,7 +76,7 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ```
 
 ## 🛡️ Security & Privacy
-FINMATE is designed with privacy in mind. In its current version, data is stored locally in the `backend/app/data/` directory. All processing happens on your own machine/server, ensuring your sensitive financial data never leaves your control.
+FINMATE is designed with privacy in mind. Data is securely stored in your **Supabase** instance, ensuring your sensitive financial data remains under your control through Row Level Security (RLS) policies.
 
 ## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.

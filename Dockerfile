@@ -1,6 +1,17 @@
 # --- Stage 1: Build Frontend ---
 FROM node:20-slim AS frontend-build
 WORKDIR /frontend
+
+# Define build arguments for Vite
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ARG VITE_API_URL
+
+# Set them as environment variables for the build process
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+ENV VITE_API_URL=$VITE_API_URL
+
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
@@ -20,9 +31,6 @@ COPY backend/ .
 
 # Copy the built frontend from Stage 1 to the backend's static folder
 COPY --from=frontend-build /frontend/dist ./static
-
-# Ensure the data directory exists
-RUN mkdir -p app/data
 
 # Expose the port FastAPI runs on
 EXPOSE 8000

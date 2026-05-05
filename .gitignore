@@ -21,8 +21,19 @@ build/
 # Local configuration
 .env
 .env.local
+.env.example
 
 # Database / Temp data
 backend/app/data/latest_db.json
 backend/app/saved_models/
 **/__pycache__/
+
+# Gemini CLI
+Dockerfile.gemini
+.gemini-data
+
+# Documentations
+docs
+
+# bank statement example
+bank_statements

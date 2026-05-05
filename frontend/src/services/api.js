@@ -1,12 +1,21 @@
 import axios from 'axios';
+import { supabase } from './supabase';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+});
+
+// Add a request interceptor to include the auth token
+apiClient.interceptors.request.use(async (config) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+        config.headers.Authorization = `Bearer ${session.access_token}`;
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
 });
 
 export const uploadTransactions = async (file) => {
@@ -38,5 +47,10 @@ export const clearTransactions = async () => {
 
 export const addManualTransaction = async (transaction) => {
     const response = await apiClient.post('/api/transactions/manual', transaction);
+    return response.data;
+};
+
+export const updateTransactionCategory = async (transactionId, category) => {
+    const response = await apiClient.patch(`/api/transactions/${transactionId}/category`, { category });
     return response.data;
 };
