@@ -15,15 +15,18 @@ app = FastAPI(
 )
 
 # CORS mapping
+# In a unified deployment, the frontend is served from the same origin as the API.
+# We include localhost for development and a wildcard for onrender subdomains.
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "*" # Replace with your Vercel URL in production for better security
+    "http://localhost:8000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex="https://.*\.onrender\.com", # Robustly allow all Render subdomains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { supabase } from './supabase';
 
+// For unified deployment, we want to use relative paths. 
+// If VITE_API_URL is not set (which it shouldn't be for unified Render deploy), 
+// axios will use the same domain the frontend is served from.
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 const apiClient = axios.create({
