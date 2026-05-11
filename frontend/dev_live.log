@@ -1,0 +1,5 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.19.0"} (current: {"node":"v20.20.2","pnpm":"10.33.4"})
+
+> frontend@0.0.1 dev /workspace/frontend
+> astro dev
+

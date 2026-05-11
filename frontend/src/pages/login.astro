@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TerminalAuth from '../components/TerminalAuth.jsx';
+---
+
+<Layout title="Secure Login">
+  <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-6">
+    <TerminalAuth client:only="react" />
+  </div>
+</Layout>

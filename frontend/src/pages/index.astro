@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="AI-Powered Financial Intelligence">
+  <div class="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden">
+    
+    <!-- Decorative background elements -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-cyan/10 rounded-full blur-[120px] mix-blend-screen"></div>
+      <div class="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-orange/10 rounded-full blur-[100px] mix-blend-screen"></div>
+      
+      <!-- Grid crosshairs -->
+      <div class="absolute top-[20%] left-[10%] w-8 h-8 border-t border-l border-white/30"></div>
+      <div class="absolute top-[20%] right-[10%] w-8 h-8 border-t border-r border-white/30"></div>
+      <div class="absolute bottom-[20%] left-[10%] w-8 h-8 border-b border-l border-white/30"></div>
+      <div class="absolute bottom-[20%] right-[10%] w-8 h-8 border-b border-r border-white/30"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center py-20">
+      
+      <div class="space-y-8">
+        <div class="inline-flex items-center gap-3 px-3 py-1 border border-white/10 bg-white/5 backdrop-blur-sm rounded-full">
+          <span class="w-2 h-2 rounded-full bg-lime animate-pulse"></span>
+          <span class="text-xs font-mono tracking-widest uppercase text-white/70">System Online v2.0.4</span>
+        </div>
+        
+        <h1 class="font-display font-extrabold text-6xl md:text-8xl leading-[0.9] tracking-tighter uppercase">
+          <span class="block text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50">RAW DATA.</span>
+          <span class="block mt-2 glitch-text" data-text="REFINED WEALTH.">REFINED WEALTH.</span>
+        </h1>
+        
+        <p class="font-mono text-lg text-white/60 max-w-xl leading-relaxed">
+          FINMATE is a high-performance personal finance dashboard. Utilizing Isolation Forests and NLP-driven heuristics to transform raw bank statements into actionable insights.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <a href="/login" class="brutal-btn group">
+            <span class="mr-2">&gt;_</span>
+            Initialize Protocol
+            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+          <a href="#features" class="brutal-btn-alt">
+            View Architecture
+          </a>
+        </div>
+        
+        <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4">
+          <div>
+            <div class="text-2xl font-mono text-cyan">99.9%</div>
+            <div class="text-xs font-mono text-white/50 uppercase tracking-wider mt-1">Accuracy</div>
+          </div>
+          <div>
+            <div class="text-2xl font-mono text-lime">&lt;10ms</div>
+            <div class="text-xs font-mono text-white/50 uppercase tracking-wider mt-1">Latency</div>
+          </div>
+          <div>
+            <div class="text-2xl font-mono text-orange">ISO-F</div>
+            <div class="text-xs font-mono text-white/50 uppercase tracking-wider mt-1">Anomaly Det.</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right side abstract graphic -->
+      <div class="relative hidden lg:block h-[600px] w-full border border-white/10 bg-black/40 backdrop-blur-xl p-6 shadow-[20px_20px_0_0_rgba(255,255,255,0.02)]">
+        <div class="absolute inset-0 flex flex-col justify-between p-6 z-10 font-mono text-xs text-white/30">
+          <div class="flex justify-between"><span>SYS.MONITOR</span><span>[ACTIVE]</span></div>
+          <div class="flex justify-between"><span>MEM: 0x4B3A</span><span>CPU: 42%</span></div>
+        </div>
+        
+        <!-- Animated visualizer -->
+        <div class="absolute inset-4 border border-cyan/20 flex items-end justify-between p-8 gap-2 overflow-hidden">
+          <div class="w-full h-[40%] bg-gradient-to-t from-cyan/40 to-transparent border-t border-cyan animate-[pulse_3s_ease-in-out_infinite]"></div>
+          <div class="w-full h-[70%] bg-gradient-to-t from-cyan/40 to-transparent border-t border-cyan animate-[pulse_4s_ease-in-out_infinite_0.5s]"></div>
+          <div class="w-full h-[30%] bg-gradient-to-t from-cyan/40 to-transparent border-t border-cyan animate-[pulse_2.5s_ease-in-out_infinite_1s]"></div>
+          <div class="w-full h-[90%] bg-gradient-to-t from-orange/40 to-transparent border-t border-orange animate-[pulse_5s_ease-in-out_infinite_0.2s] relative">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-orange font-mono text-xs bg-orange/10 px-2 border border-orange">ANOMALY</div>
+          </div>
+          <div class="w-full h-[50%] bg-gradient-to-t from-cyan/40 to-transparent border-t border-cyan animate-[pulse_3.5s_ease-in-out_infinite_1.5s]"></div>
+          <div class="w-full h-[60%] bg-gradient-to-t from-lime/40 to-transparent border-t border-lime animate-[pulse_4.5s_ease-in-out_infinite_0.8s]"></div>
+          <div class="w-full h-[80%] bg-gradient-to-t from-cyan/40 to-transparent border-t border-cyan animate-[pulse_3.2s_ease-in-out_infinite_0.3s]"></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="features" class="max-w-7xl mx-auto px-6 py-24">
+    <div class="mb-16">
+      <h2 class="font-display text-4xl uppercase tracking-tighter">Core Directives</h2>
+      <div class="w-24 h-1 bg-cyan mt-4"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="brutal-box group">
+        <div class="text-cyan mb-4 font-mono text-xl group-hover:animate-pulse">01 // INGESTION</div>
+        <h3 class="font-display text-2xl mb-3">Dynamic Data Parsing</h3>
+        <p class="font-mono text-sm text-white/60">Robust CSV ingestion for varying bank formats. Automated schema mapping reduces friction.</p>
+      </div>
+      
+      <div class="brutal-box group">
+        <div class="text-lime mb-4 font-mono text-xl group-hover:animate-pulse">02 // CLASSIFICATION</div>
+        <h3 class="font-display text-2xl mb-3">Smart Categorization</h3>
+        <p class="font-mono text-sm text-white/60">Advanced NLP heuristics auto-group transactions. No more manual ledger entries.</p>
+      </div>
+      
+      <div class="brutal-box group border-orange/50 hover:border-orange">
+        <div class="text-orange mb-4 font-mono text-xl group-hover:animate-pulse">03 // DETECTION</div>
+        <h3 class="font-display text-2xl mb-3">Isolation Forests</h3>
+        <p class="font-mono text-sm text-white/60">Machine Learning models scan for unusual spending patterns and financial risk vectors.</p>
+      </div>
+    </div>
+  </div>
+</Layout>

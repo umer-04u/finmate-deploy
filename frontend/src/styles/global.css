@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black: #050505;
+  --color-offblack: #0f0f0f;
+  --color-white: #ffffff;
+  --color-gray: #a0a0a0;
+  --color-cyan: #00e5ff;
+  --color-orange: #ff4c00;
+  --color-lime: #39ff14;
+
+  --font-mono: 'Space Mono', monospace;
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif; /* Not generic AI if paired with brutalist styling */
+}
+
+@layer base {
+  :root {
+    --bg-color: #050505;
+    --text-color: #ffffff;
+  }
+  
+  html, body {
+    @apply bg-[var(--bg-color)] text-[var(--text-color)] font-mono selection:bg-cyan selection:text-black min-h-screen overflow-x-hidden;
+  }
+
+  /* Cyber-Brutalist Grid Background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  /* Scanline effect */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0,0,0,0.1) 50%,
+      rgba(0,0,0,0.1)
+    );
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.15;
+  }
+}
+
+/* Custom Utilities for Brutalist Design */
+@layer utilities {
+  .brutal-border {
+    @apply border border-white/20;
+  }
+  
+  .brutal-box {
+    @apply bg-offblack border border-white/20 p-6 shadow-[4px_4px_0_0_rgba(0,229,255,0.2)] transition-all duration-300;
+  }
+  
+  .brutal-box:hover {
+    @apply shadow-[8px_8px_0_0_rgba(0,229,255,0.4)] -translate-y-1 -translate-x-1 border-cyan;
+  }
+
+  .brutal-btn {
+    @apply inline-flex items-center justify-center px-6 py-3 font-mono font-bold uppercase tracking-widest border border-cyan bg-cyan/10 text-cyan hover:bg-cyan hover:text-black transition-colors duration-200 cursor-pointer;
+  }
+
+  .brutal-btn-alt {
+    @apply inline-flex items-center justify-center px-6 py-3 font-mono font-bold uppercase tracking-widest border border-white/40 bg-transparent text-white hover:border-white hover:bg-white hover:text-black transition-colors duration-200 cursor-pointer;
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+  }
+  
+  .glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 red;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+  
+  .glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 blue;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+  }
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(21px, 9999px, 86px, 0); }
+  20% { clip: rect(61px, 9999px, 12px, 0); }
+  40% { clip: rect(98px, 9999px, 35px, 0); }
+  60% { clip: rect(10px, 9999px, 80px, 0); }
+  80% { clip: rect(54px, 9999px, 21px, 0); }
+  100% { clip: rect(33px, 9999px, 92px, 0); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(89px, 9999px, 13px, 0); }
+  20% { clip: rect(32px, 9999px, 59px, 0); }
+  40% { clip: rect(15px, 9999px, 78px, 0); }
+  60% { clip: rect(74px, 9999px, 42px, 0); }
+  80% { clip: rect(9px, 9999px, 81px, 0); }
+  100% { clip: rect(62px, 9999px, 34px, 0); }
+}

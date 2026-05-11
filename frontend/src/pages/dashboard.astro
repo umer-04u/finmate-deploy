@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DashboardTerminal from '../components/DashboardTerminal.jsx';
+---
+
+<Layout title="Dashboard Terminal">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <DashboardTerminal client:only="react" />
+  </div>
+</Layout>

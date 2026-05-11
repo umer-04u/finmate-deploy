@@ -1,20 +1,22 @@
 import axios from 'axios';
 import { supabase } from './supabase';
 
-// For unified deployment, we want to use relative paths. 
-// If VITE_API_URL is not set (which it shouldn't be for unified Render deploy), 
-// axios will use the same domain the frontend is served from.
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+// In development, we use the Vite proxy defined in astro.config.mjs
+// In production, we use relative paths if hosted together.
+const API_BASE_URL = import.meta.env.DEV ? '' : (import.meta.env.PUBLIC_API_URL || '');
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
 });
 
-// Add a request interceptor to include the auth token
 apiClient.interceptors.request.use(async (config) => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-        config.headers.Authorization = `Bearer ${session.access_token}`;
+    try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            config.headers.Authorization = `Bearer ${session.access_token}`;
+        }
+    } catch (e) {
+        console.error('AUTH_INTERCEPTOR_ERROR:', e);
     }
     return config;
 }, (error) => {

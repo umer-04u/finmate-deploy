@@ -1,0 +1,9 @@
+Script started on 2026-05-08 19:16:01+00:00 [COMMAND="timeout 10s pnpm dev" TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="160" LINES="10"]
+[43m[30m WARN [39m[49m Unsupported engine: wanted: {"node":">=22.19.0"} (current: {"node":"v20.20.2","pnpm":"10.33.4"})
+
+> frontend@0.0.1 dev /workspace/frontend
+> astro dev
+
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed.[39m
+
+Script done on 2026-05-08 19:16:11+00:00 [COMMAND_EXIT_CODE="124"]

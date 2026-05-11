@@ -14,14 +14,12 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ## 🛠️ Technology Stack
 
 ### Backend
-
 - **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
 - **Data Processing:** [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/)
 - **Machine Learning:** [Scikit-learn](https://scikit-learn.org/)
 - **Forecasting:** Statsmodels (ARIMA)
 
 ### Frontend
-
 - **Framework:** [React](https://react.dev/) (Vite)
 - **Styling:** Tailwind CSS
 - **Charts:** [Recharts](https://recharts.org/)
@@ -30,7 +28,6 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ## 📦 Getting Started
 
 ### Prerequisites
-
 - Python 3.10+
 - Node.js 18+
 - npm or yarn
@@ -38,14 +35,12 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ### Installation
 
 1. **Clone the repository:**
-
    ```bash
-   git clone https://github.com/umer-04u/finmate-deploy.git
+   git clone https://github.com/yourusername/finmate.git
    cd finmate
    ```
 
 2. **Setup the Backend:**
-
    ```bash
    cd backend
    python -m venv venv
@@ -81,9 +76,7 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ```
 
 ## 🛡️ Security & Privacy
-
 FINMATE is designed with privacy in mind. Data is securely stored in your **Supabase** instance, ensuring your sensitive financial data remains under your control through Row Level Security (RLS) policies.
 
 ## 📄 License
-
 This project is licensed under the MIT License - see the LICENSE file for details.
