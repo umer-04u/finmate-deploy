@@ -1,0 +1,96 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="FINMATE - Monolith Financial Intelligence" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | FINMATE</title>
+		<ViewTransitions />
+	</head>
+	<body>
+		<div class="grain-overlay"></div>
+		
+		<!-- Custom Cursor elements persisted across transitions -->
+		<div class="custom-cursor" id="cursor" transition:persist></div>
+		<div class="cursor-follower" id="follower" transition:persist></div>
+		
+		<slot />
+
+		<script>
+			function initCursor() {
+				const cursor = document.getElementById('cursor');
+				const follower = document.getElementById('follower');
+				const links = document.querySelectorAll('a, button, .clickable');
+
+				if (!cursor || !follower) return;
+
+				const onMouseMove = (e: MouseEvent) => {
+					const x = e.clientX;
+					const y = e.clientY;
+					cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+					follower.style.transform = `translate3d(${x - 16}px, ${y - 16}px, 0)`;
+				};
+
+				const onMouseDown = () => {
+					cursor.style.transform += ' scale(2.5)';
+					follower.style.transform += ' scale(0.5)';
+				};
+
+				const onMouseUp = () => {
+					cursor.style.transform = cursor.style.transform.replace(' scale(2.5)', '');
+					follower.style.transform = follower.style.transform.replace(' scale(0.5)', '');
+				};
+
+				const onMouseEnterLink = () => {
+					follower.style.transform += ' scale(1.5)';
+					follower.style.background = 'rgba(255, 255, 255, 0.1)';
+					follower.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+				};
+
+				const onMouseLeaveLink = () => {
+					follower.style.transform = follower.style.transform.replace(' scale(1.5)', '');
+					follower.style.background = 'transparent';
+					follower.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+				};
+
+				document.addEventListener('mousemove', onMouseMove);
+				document.addEventListener('mousedown', onMouseDown);
+				document.addEventListener('mouseup', onMouseUp);
+
+				links.forEach(link => {
+					link.addEventListener('mouseenter', onMouseEnterLink);
+					link.addEventListener('mouseleave', onMouseLeaveLink);
+				});
+
+				// Cleanup function to prevent double listeners on re-init
+				return () => {
+					document.removeEventListener('mousemove', onMouseMove);
+					document.removeEventListener('mousedown', onMouseDown);
+					document.removeEventListener('mouseup', onMouseUp);
+				};
+			}
+
+			// Initialize on first load
+			let cleanup = initCursor();
+
+			// Re-initialize on every Astro page load (view transition)
+			document.addEventListener('astro:page-load', () => {
+				if (cleanup) cleanup();
+				cleanup = initCursor();
+			});
+		</script>
+	</body>
+</html>

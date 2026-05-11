@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Users, Target, Rocket } from 'lucide-react';
+---
+
+<Layout title="About Us">
+	<main class="about-page">
+		<nav class="premium-nav">
+			<div class="nav-container">
+				<a href="/" class="nav-logo">
+					<div class="logo-wrapper" style="width: 32px; height: 32px;">
+            <img src="/logo.svg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+          </div>
+				</a>
+				<div class="nav-links-wrapper">
+					<div class="nav-links">
+						<a href="/platform" class="nav-link">Platform</a>
+						<a href="/intelligence" class="nav-link">Intelligence</a>
+						<a href="/sovereignty" class="nav-link">Sovereignty</a>
+					</div>
+					<a href="/#auth" class="btn-premium" style="padding: 10px 20px; font-size: 0.75rem;">
+						INITIALIZE
+					</a>
+				</div>
+			</div>
+		</nav>
+
+		<section class="hero-sub animate-reveal">
+			<div class="mesh-bg"></div>
+			<h1 class="text-gradient">Our Manifesto</h1>
+			<p class="subtitle">Architecting the future of private financial intelligence.</p>
+		</section>
+
+		<section class="manifesto-grid animate-reveal delay-2">
+			<div class="glass-card manifesto-item">
+				<Target size={40} className="text-indigo-500" />
+				<h3>The Mission</h3>
+				<p>To provide every individual with the tools to master their financial narrative through uncompromising design and engineering.</p>
+			</div>
+			<div class="glass-card manifesto-item">
+				<Users size={40} className="text-emerald-500" />
+				<h3>The Collective</h3>
+				<p>Built by engineers and designers who believe that privacy is not a feature, but a fundamental human right.</p>
+			</div>
+			<div class="glass-card manifesto-item">
+				<Rocket size={40} className="text-amber-500" />
+				<h3>The Future</h3>
+				<p>We are building a world where financial data is autonomous, sovereign, and entirely yours.</p>
+			</div>
+		</section>
+
+		<footer class="premium-footer">
+			<div class="footer-container">
+				<div class="footer-bottom">
+					<p>© 2026 FINMATE PROTOCOL. ALL RIGHTS RESERVED.</p>
+					<a href="/" style="color: var(--accent-primary); font-weight: 700;">RETURN TO CORE</a>
+				</div>
+			</div>
+		</footer>
+	</main>
+</Layout>
+
+<style>
+	.about-page { min-height: 100vh; background: var(--mono-0); }
+	.hero-sub { padding: 12rem 2rem 6rem; text-align: center; position: relative; }
+	.hero-sub h1 { font-size: 5rem; margin-bottom: 1rem; }
+	.subtitle { color: var(--mono-40); font-size: 1.5rem; max-width: 800px; margin: 0 auto; }
+	
+	.manifesto-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 4rem 2rem 12rem;
+	}
+
+	.manifesto-item { padding: 4rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+	.manifesto-item h3 { font-size: 1.5rem; color: var(--mono-100); }
+	.manifesto-item p { color: var(--mono-40); line-height: 1.6; }
+
+	.premium-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		padding: 2rem 4rem;
+		backdrop-filter: blur(10px);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	.nav-container {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.nav-links-wrapper { display: flex; align-items: center; gap: 4rem; }
+	.nav-links { display: flex; gap: 2.5rem; }
+	.nav-link { font-size: 0.8rem; font-weight: 700; color: var(--mono-40); text-transform: uppercase; letter-spacing: 0.1em; transition: var(--transition-smooth); }
+	.nav-link:hover { color: var(--mono-100); transform: translateY(-2px); }
+
+	.premium-footer {
+		padding: 4rem;
+		border-top: 1px solid var(--border-subtle);
+	}
+	.footer-bottom {
+		display: flex;
+		justify-content: space-between;
+		color: var(--mono-40);
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 1024px) {
+		.manifesto-grid { grid-template-columns: 1fr; }
+	}
+</style>

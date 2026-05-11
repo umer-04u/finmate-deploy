@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { FinmateLogo } from '../components/Logo';
+import { BarChart3, Zap, Shield, Cpu } from 'lucide-react';
+---
+
+<Layout title="Platform Intelligence">
+	<main class="platform-page">
+		<nav class="premium-nav">
+			<div class="nav-container">
+				<a href="/" class="nav-logo">
+					<div class="logo-wrapper" style="width: 32px; height: 32px;">
+            <img src="/logo.svg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+          </div>
+				</a>
+				<div class="nav-links-wrapper">
+					<div class="nav-links">
+						<a href="/platform" class="nav-link">Platform</a>
+						<a href="/intelligence" class="nav-link">Intelligence</a>
+						<a href="/sovereignty" class="nav-link">Sovereignty</a>
+					</div>
+					<a href="/#auth" class="btn-premium" style="padding: 10px 20px; font-size: 0.75rem;">
+						INITIALIZE
+					</a>
+				</div>
+			</div>
+		</nav>
+
+		<section class="hero-sub animate-reveal">
+			<div class="mesh-bg"></div>
+			<h1 class="text-gradient">The Monolith Platform</h1>
+			<p class="subtitle">A high-fidelity architectural framework for financial sovereignty.</p>
+		</section>
+
+		<section class="demo-content">
+			<div class="bento-grid" style="max-width: 1200px; margin: 0 auto; padding: 4rem 2rem;">
+				<div class="glass-card platform-card animate-reveal delay-1" style="grid-column: span 2;">
+					<Cpu className="icon-accent" color="var(--accent-primary)" size={32} />
+					<h3>Neural Engine V2</h3>
+					<p>Our proprietary classification engine uses deep learning to categorize transactions with 99.8% precision.</p>
+				</div>
+				<div class="glass-card platform-card animate-reveal delay-2" style="grid-column: span 2;">
+					<Shield className="icon-accent" color="var(--accent-emerald)" size={32} />
+					<h3>Immutable Vault</h3>
+					<p>Your data is encrypted at the edge. We never see your transactions; we only provide the interface to master them.</p>
+				</div>
+				<div class="glass-card platform-card animate-reveal delay-3">
+					<Zap className="icon-accent" color="var(--accent-amber)" size={32} />
+					<h4>Zero Latency</h4>
+					<p>Synchronize across multiple institutions in real-time.</p>
+				</div>
+				<div class="glass-card platform-card animate-reveal delay-3" style="grid-column: span 3;">
+					<BarChart3 className="icon-accent" color="var(--accent-secondary)" size={32} />
+					<h4>Advanced Synthesis</h4>
+					<p>Experience deep-dive analytics that reveal the true narrative of your capital flow.</p>
+				</div>
+			</div>
+		</section>
+
+		<footer class="premium-footer">
+			<div class="footer-container">
+				<div class="footer-bottom">
+					<p>© 2026 FINMATE PROTOCOL. ALL RIGHTS RESERVED.</p>
+					<a href="/" style="color: var(--accent-primary); font-weight: 700;">RETURN TO CORE</a>
+				</div>
+			</div>
+		</footer>
+	</main>
+</Layout>
+
+<style>
+	.platform-page {
+		min-height: 100vh;
+		background: var(--mono-0);
+	}
+	.hero-sub {
+		padding: 12rem 2rem 6rem;
+		text-align: center;
+		position: relative;
+	}
+	.hero-sub h1 {
+		font-size: 5rem;
+		margin-bottom: 1rem;
+	}
+	.subtitle {
+		color: var(--mono-40);
+		font-size: 1.5rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	.demo-content h3 { font-size: 1.75rem; margin-bottom: 1rem; }
+	.demo-content p { color: var(--mono-40); line-height: 1.6; }
+
+	.platform-card {
+		padding: 4rem 3rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 1rem;
+	}
+
+	.icon-accent {
+		margin-bottom: 1.5rem;
+	}
+
+	/* Reuse nav styles from index.astro or move to global */
+	.premium-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		padding: 2rem 4rem;
+		backdrop-filter: blur(10px);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	.nav-container {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.nav-links-wrapper { display: flex; align-items: center; gap: 4rem; }
+	.nav-links { display: flex; gap: 2.5rem; }
+	.nav-link { font-size: 0.8rem; font-weight: 700; color: var(--mono-40); text-transform: uppercase; letter-spacing: 0.1em; transition: var(--transition-smooth); }
+	.nav-link:hover { color: var(--mono-100); transform: translateY(-2px); }
+
+	.premium-footer {
+		padding: 4rem;
+		border-top: 1px solid var(--border-subtle);
+	}
+	.footer-bottom {
+		display: flex;
+		justify-content: space-between;
+		color: var(--mono-40);
+		font-size: 0.8rem;
+	}
+</style>

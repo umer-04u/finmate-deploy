@@ -1,0 +1,346 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import AuthForm from '../components/AuthForm';
+import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
+---
+
+<Layout title="Monolith Financial Intelligence">
+	<nav class="premium-nav">
+		<div class="nav-container">
+			<a href="/" class="nav-logo">
+				<div class="logo-wrapper" style="width: 32px; height: 32px;">
+					<img src="/logo.svg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+				</div>
+			</a>
+			<div class="nav-links-wrapper">
+				<div class="nav-links">
+					<a href="/platform" class="nav-link">Platform</a>
+					<a href="/intelligence" class="nav-link">Intelligence</a>
+					<a href="/sovereignty" class="nav-link">Sovereignty</a>
+				</div>
+				<a href="#auth" class="btn-premium" style="padding: 10px 20px; font-size: 0.75rem;">
+					INITIALIZE
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<main>
+		<Hero />
+
+		<section class="features-section">
+			<div class="section-header animate-reveal">
+				<h2 class="section-title">Engineered for <span class="serif text-gradient">Absolute Clarity</span></h2>
+				<p class="section-subtitle">Beyond simple tracking. We provide the architectural framework for your financial legacy.</p>
+			</div>
+
+			<div class="bento-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+				<div class="glass-card feature-card animate-reveal" style="grid-column: span 2; padding: 3rem;">
+					<Zap class="feature-icon" color="var(--accent-primary)" />
+					<h3>Real-time Synthesis</h3>
+					<p>Experience zero-latency synchronization across all your financial nodes. Your data, processed at the speed of thought.</p>
+				</div>
+				<div class="glass-card feature-card animate-reveal delay-1" style="grid-column: span 2; padding: 3rem;">
+					<ShieldCheck class="feature-icon" color="var(--accent-emerald)" />
+					<h3>Sovereign Security</h3>
+					<p>Military-grade AES-256 encryption combined with our proprietary Zero-Knowledge architecture ensures only you hold the keys.</p>
+				</div>
+				<div class="glass-card feature-card animate-reveal delay-2" style="padding: 2.5rem;">
+					<BarChart3 class="feature-icon" color="var(--accent-secondary)" />
+					<h4>AI Narrative</h4>
+					<p>Transform raw transactions into meaningful insights with our neural classification engine.</p>
+				</div>
+				<div class="glass-card feature-card animate-reveal delay-3" style="grid-column: span 3; padding: 2.5rem; display: flex; align-items: center; gap: 3rem;">
+					<div style="flex: 1;">
+						<Lock class="feature-icon" color="var(--accent-rose)" />
+						<h4>Immutable Privacy</h4>
+						<p>Your data never leaves the encrypted vault. We process everything locally in your browser environment for maximum privacy.</p>
+					</div>
+					<div class="vault-graphic">
+						<div class="circle pulse"></div>
+						<div class="circle delay-1"></div>
+						<div class="circle delay-2"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="auth" class="auth-section">
+			<div class="auth-container glass-card">
+				<div class="auth-header">
+					<h2 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Begin <span class="serif">Initialization</span></h2>
+					<p style="color: var(--mono-40); margin-bottom: 3rem;">Enter your credentials to access the monolith.</p>
+				</div>
+				<AuthForm client:only="react" />
+			</div>
+			
+			<div class="auth-mesh"></div>
+		</section>
+
+		<footer class="premium-footer">
+			<div class="footer-container">
+				<div class="footer-grid">
+					<div class="footer-brand">
+						<div class="nav-logo" style="margin-bottom: 2rem;">
+							<div class="logo-wrapper" style="width: 28px; height: 28px;">
+                <img src="/logo.svg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+              </div>
+						</div>
+						<p class="footer-desc">The standard for modern asset intelligence. Built for those who demand clarity and precision in their financial narrative.</p>
+					</div>
+					<div class="footer-links-col">
+						<h4>Platform</h4>
+						<ul>
+							<li>Analytics</li>
+							<li>Security</li>
+							<li>API</li>
+						</ul>
+					</div>
+					<div class="footer-links-col">
+						<h4>Company</h4>
+						<ul>
+							<li><a href="/about">About</a></li>
+							<li>Privacy</li>
+							<li>Terms</li>
+						</ul>
+					</div>
+					<div class="footer-links-col">
+						<h4>Connect</h4>
+						<ul>
+							<li>Twitter</li>
+							<li>LinkedIn</li>
+							<li>GitHub</li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>© 2026 FINMATE PROTOCOL. ALL RIGHTS RESERVED.</p>
+					<p>LOCATED IN THE DIGITAL CLOUD.</p>
+				</div>
+			</div>
+		</footer>
+	</main>
+</Layout>
+
+<style>
+	.premium-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		padding: 2rem 4rem;
+		backdrop-filter: blur(10px);
+		border-bottom: 1px solid var(--border-subtle);
+	}
+
+	.nav-container {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.nav-logo {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.logo-mark {
+		width: 28px;
+		height: 28px;
+		background: var(--accent-primary);
+		border-radius: 6px;
+		box-shadow: 0 0 15px var(--accent-glow);
+	}
+
+	.logo-text {
+		font-weight: 900;
+		font-size: 1.2rem;
+		letter-spacing: -0.04em;
+		color: var(--mono-100);
+	}
+
+	.nav-links-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 4rem;
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 2.5rem;
+	}
+
+	.nav-link {
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--mono-40);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		transition: var(--transition-smooth);
+	}
+
+	.nav-link:hover {
+		color: var(--mono-100);
+		transform: translateY(-2px);
+	}
+
+	.features-section {
+		padding: 12rem 2rem;
+		background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.02) 0%, transparent 70%);
+	}
+
+	.section-header {
+		text-align: center;
+		margin-bottom: 8rem;
+	}
+
+	.section-title {
+		font-size: 4rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.section-subtitle {
+		color: var(--mono-40);
+		font-size: 1.25rem;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.feature-card h3, .feature-card h4 {
+		margin: 1.5rem 0 1rem;
+		font-size: 1.5rem;
+	}
+
+	.feature-card p {
+		color: var(--mono-40);
+		line-height: 1.6;
+	}
+
+	.feature-icon {
+		width: 40px;
+		height: 40px;
+		margin-bottom: 1rem;
+	}
+
+	.vault-graphic {
+		position: relative;
+		width: 200px;
+		height: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.circle {
+		position: absolute;
+		border: 1px solid var(--accent-primary);
+		border-radius: 50%;
+		width: 100%;
+		height: 100%;
+		opacity: 0.2;
+		animation: pulse-ring 4s infinite;
+	}
+
+	@keyframes pulse-ring {
+		0% { transform: scale(0.5); opacity: 0; }
+		50% { opacity: 0.2; }
+		100% { transform: scale(1.5); opacity: 0; }
+	}
+
+	.auth-section {
+		padding: 10rem 2rem 20rem;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.auth-container {
+		width: 100%;
+		max-width: 600px;
+		padding: 5rem;
+		text-align: center;
+		z-index: 10;
+	}
+
+	.auth-mesh {
+		position: absolute;
+		bottom: -10%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 150%;
+		height: 80%;
+		background: radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+		z-index: 1;
+	}
+
+	.premium-footer {
+		padding: 8rem 4rem 4rem;
+		border-top: 1px solid var(--border-subtle);
+		background: rgba(2, 6, 23, 0.8);
+	}
+
+	.footer-container {
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+
+	.footer-grid {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr 1fr;
+		gap: 6rem;
+		margin-bottom: 8rem;
+	}
+
+	.footer-desc {
+		color: var(--mono-40);
+		max-width: 350px;
+		line-height: 1.7;
+	}
+
+	.footer-links-col h4 {
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		margin-bottom: 2rem;
+		color: var(--mono-100);
+	}
+
+	.footer-links-col ul {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		color: var(--mono-40);
+		font-size: 0.9rem;
+	}
+
+	.footer-links-col li:hover {
+		color: var(--mono-100);
+		cursor: pointer;
+	}
+
+	.footer-bottom {
+		border-top: 1px solid var(--border-subtle);
+		padding-top: 4rem;
+		display: flex;
+		justify-content: space-between;
+		color: var(--mono-40);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+	}
+
+	@media (max-width: 1024px) {
+		.premium-nav { padding: 1.5rem 2rem; }
+		.nav-links { display: none; }
+		.footer-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+		.section-title { font-size: 2.5rem; }
+		.auth-container { padding: 3rem 1.5rem; }
+	}
+</style>

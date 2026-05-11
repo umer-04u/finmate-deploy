@@ -1,64 +1,65 @@
-# FINMATE: AI-Powered Financial Intelligence Dashboard
+# FINMATE: AI-Powered Financial Intelligence Monolith
 
-FINMATE is a high-performance personal finance dashboard designed to transform raw bank statements into actionable insights. Utilizing Isolation Forests for anomaly detection and NLP-driven heuristics for categorization, FINMATE provides a modern, interactive experience for tracking and analyzing your spending habits.
+FINMATE is a high-performance, premium financial intelligence dashboard designed to transform raw bank statements into actionable narratives. Engineered with a "Monolith" aesthetic, it utilizes Isolation Forests for anomaly detection and neural-inspired heuristics for categorization, providing a sovereign experience for financial clarity.
 
 ## 🚀 Features
 
-- **Dynamic Data Ingestion:** Robust CSV parsing for various bank statement formats with automated column mapping.
-- **Smart Categorization:** Advanced NLP heuristics that automatically group transactions into categories like Food, Utilities, Shopping, and more.
+- **Dynamic Data Ingestion:** Robust CSV/Excel parsing for various bank statement formats with automated column mapping.
+- **Neural Categorization:** Advanced heuristics that automatically group transactions into sectors like Food & Dining, Investment, Utilities, and more.
 - **Anomaly Detection:** Utilizes **Isolation Forests** (Machine Learning) to identify unusual spending patterns and potential financial risks.
-- **Interactive Visualizations:** Deep-dive into your finances with monthly trends, category breakdowns, and historical expenditure charts.
-- **Manual Adjustments:** Add manual transactions for cash expenses or corrections to keep your records perfectly accurate.
-- **Real-time Analytics:** Instant KPI updates (Total Income, Expenses, Savings Rate) upon data upload or modification.
+- **Bento Grid Dashboard:** A responsive, interactive dashboard featuring monthly trends, sector allocations, and a real-time ledger.
+- **Cross-Platform Responsive:** Optimized for mobile, tablet, and desktop with a fluid sidebar and adaptive grid system.
+- **Manual Entry Protocol:** Add manual transactions for cash expenses or corrections to keep your records perfectly accurate.
+- **Sovereign Security:** Built-in Supabase integration with Row Level Security (RLS) ensuring your data remains under your absolute control.
 
 ## 🛠️ Technology Stack
 
-### Backend
+### Backend (Neural Engine)
 
 - **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
 - **Data Processing:** [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/)
-- **Machine Learning:** [Scikit-learn](https://scikit-learn.org/)
-- **Forecasting:** Statsmodels (ARIMA)
+- **Machine Learning:** [Scikit-learn](https://scikit-learn.org/) (Isolation Forest)
+- **Deployment:** [Uvicorn](https://www.uvicorn.org/)
 
-### Frontend
+### Frontend (Command Center)
 
-- **Framework:** [React](https://react.dev/) (Vite)
-- **Styling:** Tailwind CSS
+- **Framework:** [Astro](https://astro.build/) + [React](https://react.dev/)
+- **Styling:** Premium Vanilla CSS + [Framer Motion](https://www.framer.com/motion/)
 - **Charts:** [Recharts](https://recharts.org/)
 - **Icons:** Lucide React
 
-## 📦 Getting Started
+## 📦 Deployment
 
-### Prerequisites
+### Docker (Recommended)
 
-- Python 3.10+
-- Node.js 18+
-- npm or yarn
+The project includes a multi-stage Dockerfile for unified deployment.
 
-### Installation
-
-1. **Clone the repository:**
+1. **Build and Run:**
 
    ```bash
-   git clone https://github.com/umer-04u/finmate-deploy.git
-   cd finmate
+   docker build \
+     --build-arg VITE_SUPABASE_URL=your_url \
+     --build-arg VITE_SUPABASE_ANON_KEY=your_key \
+     --build-arg VITE_API_URL=/api \
+     -t finmate .
+   
+   docker run -p 8000:8000 finmate
    ```
 
-2. **Setup the Backend:**
+### Manual Installation
 
+1. **Backend:**
    ```bash
    cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
    pip install -r requirements.txt
-   uvicorn app.main:app --reload
+   uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
-3. **Setup the Frontend:**
+2. **Frontend:**
    ```bash
-   cd ../frontend
+   cd frontend
    npm install
-   npm run dev
+   npm run build
    ```
 
 ## 📂 Project Structure
@@ -67,17 +68,18 @@ FINMATE is a high-performance personal finance dashboard designed to transform r
 ├── backend/
 │   ├── app/
 │   │   ├── ml/             # ML Models (Anomalies, Categorization)
-│   │   ├── routers/        # API Endpoints
-│   │   ├── services/       # Data processing logic
-│   │   └── utils/          # Supabase and Auth utilities
-│   └── requirements.txt
+│   │   ├── routers/        # API Endpoints (Transactions, Analytics)
+│   │   ├── services/       # Core Logic (Parsing, Persistence)
+│   │   └── main.py         # FastAPI Entry Point
+│   └── Dockerfile          # Backend-only Docker
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # UI Components (Charts, Tables)
-│   │   ├── services/       # API integration
-│   │   └── App.jsx         # Main Dashboard logic
-│   └── tailwind.config.js
-└── docs/                   # Detailed architecture & API guides
+│   │   ├── components/     # React UI Components
+│   │   ├── layouts/        # Astro Layouts
+│   │   ├── pages/          # Astro Pages (Routing)
+│   │   └── styles/         # Global & Theme Styles
+│   └── astro.config.mjs
+└── Dockerfile              # Unified Multi-stage Docker
 ```
 
 ## 🛡️ Security & Privacy
@@ -86,4 +88,4 @@ FINMATE is designed with privacy in mind. Data is securely stored in your **Supa
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
