@@ -14,11 +14,13 @@
     "@supabase/supabase-js": "^2.43.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/ws": "^8.18.1",
     "astro": "^4.11.3",
+    "framer-motion": "^11.2.10",
     "lucide-react": "^0.395.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.12.7",
-    "framer-motion": "^11.2.10"
+    "ws": "^8.21.0"
   }
 }
