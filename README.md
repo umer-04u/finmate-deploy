@@ -4,29 +4,32 @@ FINMATE is a high-performance, premium financial intelligence dashboard designed
 
 ## 🚀 Features
 
+- **FinMate AI Assistant:** A direct conversational link to your finances powered by **Groq LPU™** and **Llama 3.1**. Ask complex queries and get instant, markdown-formatted advice.
+- **Context-Aware Intelligence:** The AI doesn't just talk; it sees. It has real-time access to your expenditure totals, top sectors, and detected anomalies for personalized insights.
+- **Dedicated Intelligence Console:** A distraction-free, fullscreen neural interface for deep financial planning and analysis.
 - **Dynamic Data Ingestion:** Robust CSV/Excel parsing for various bank statement formats with automated column mapping.
-- **Neural Categorization:** Advanced heuristics that automatically group transactions into sectors like Food & Dining, Investment, Utilities, and more.
 - **Anomaly Detection:** Utilizes **Isolation Forests** (Machine Learning) to identify unusual spending patterns and potential financial risks.
-- **Bento Grid Dashboard:** A responsive, interactive dashboard featuring monthly trends, sector allocations, and a real-time ledger.
-- **Cross-Platform Responsive:** Optimized for mobile, tablet, and desktop with a fluid sidebar and adaptive grid system.
+- **Bento Grid Dashboard:** A high-fidelity, interactive dashboard with adaptive layouts for mobile, tablet, and desktop.
 - **Manual Entry Protocol:** Add manual transactions for cash expenses or corrections to keep your records perfectly accurate.
-- **Sovereign Security:** Built-in Supabase integration with Row Level Security (RLS) ensuring your data remains under your absolute control.
+- **Sovereign Security:** Strictly authenticated sessions with Supabase and Row Level Security (RLS), ensuring data sovereignty.
 
 ## 🛠️ Technology Stack
 
 ### Backend (Neural Engine)
 
 - **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
+- **AI Inference:** [Groq API](https://groq.com/) (Llama-3.1-8b-instant)
+- **Networking:** [HTTPX](https://www.python-httpx.org/) (Direct API Integration)
 - **Data Processing:** [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/)
 - **Machine Learning:** [Scikit-learn](https://scikit-learn.org/) (Isolation Forest)
-- **Deployment:** [Uvicorn](https://www.uvicorn.org/)
 
 ### Frontend (Command Center)
 
 - **Framework:** [Astro](https://astro.build/) + [React](https://react.dev/)
-- **Styling:** Premium Vanilla CSS + [Framer Motion](https://www.framer.com/motion/)
+- **Motion:** [Framer Motion](https://www.framer.com/motion/) (Premium animations & micro-interactions)
 - **Charts:** [Recharts](https://recharts.org/)
-- **Icons:** Lucide React
+- **Real-time:** [Supabase](https://supabase.com/) + `ws` (WebSocket support for Node.js builds)
+- **Styling:** Premium Vanilla CSS (Monolith Design System)
 
 ## 📦 Deployment
 
