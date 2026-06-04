@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import ChatBot from '../components/ChatBot';
 import '../styles/global.css';
 
 interface Props {
@@ -28,6 +29,8 @@ const { title } = Astro.props;
 		<div class="cursor-follower" id="follower" transition:persist></div>
 		
 		<slot />
+
+		{Astro.url.pathname !== '/intelligence' && <ChatBot client:load />}
 
 		<script>
 			function initCursor() {

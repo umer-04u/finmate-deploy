@@ -198,11 +198,17 @@ export default function Dashboard() {
         </div>
 
         <nav className="sidebar-nav">
-          <div className="nav-item active">
+          <div 
+            className={`nav-item ${window.location.pathname === '/dashboard' ? 'active' : ''}`}
+            onClick={() => window.location.href = '/dashboard'}
+          >
             <LayoutDashboard size={20} /> 
             {isSidebarOpen && <span>Command Center</span>}
           </div>
-          <div className="nav-item">
+          <div 
+            className={`nav-item ${window.location.pathname === '/intelligence' ? 'active' : ''}`}
+            onClick={() => window.location.href = '/intelligence'}
+          >
             <BarChart3 size={20} /> 
             {isSidebarOpen && <span>Intelligence</span>}
           </div>
@@ -244,9 +250,9 @@ export default function Dashboard() {
         </header>
 
         {/* Bento Grid */}
-        <div className="bento-grid">
+        <div className="dashboard-grid">
           {/* Main Chart */}
-          <div className="glass-card chart-card animate-reveal grid-span-4" style={{ gridRow: 'span 2' }}>
+          <div className="glass-card chart-card animate-reveal grid-full-width">
             <div className="card-header">
               <div>
                 <h3 className="card-title">Wealth Trajectory</h3>
@@ -279,26 +285,27 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Quick Stats Row */}
-          <div className="glass-card stat-card animate-reveal delay-1">
-            <Activity color="var(--accent-emerald)" size={24} />
-            <span className="stat-label">LEDGER ENTRIES</span>
-            <span className="stat-value">{data?.transactions?.length}</span>
-            <span className="stat-delta">ACTIVE PROTOCOLS</span>
-          </div>
+          <div className="stats-row">
+            <div className="glass-card stat-card animate-reveal delay-1">
+              <Activity color="var(--accent-emerald)" size={24} />
+              <span className="stat-label">LEDGER ENTRIES</span>
+              <span className="stat-value">{data?.transactions?.length}</span>
+              <span className="stat-delta">ACTIVE PROTOCOLS</span>
+            </div>
 
-          <div className="glass-card stat-card animate-reveal delay-2">
-            <TrendingUp color="var(--accent-amber)" size={24} />
-            <span className="stat-label">PEAK SECTOR</span>
-            <span className="stat-value" style={{ fontSize: '1.2rem', color: 'var(--accent-amber)' }}>{highestCategory}</span>
-            <span className="stat-delta">CONCENTRATED FLOW</span>
-          </div>
+            <div className="glass-card stat-card animate-reveal delay-2">
+              <TrendingUp color="var(--accent-amber)" size={24} />
+              <span className="stat-label">PEAK SECTOR</span>
+              <span className="stat-value text-amber">{highestCategory}</span>
+              <span className="stat-delta">CONCENTRATED FLOW</span>
+            </div>
 
-          <div className={`glass-card anomaly-card animate-reveal delay-3 ${anomalies.length > 0 ? 'active' : ''}`}>
-             <AlertCircle color={anomalies.length > 0 ? "var(--accent-rose)" : "var(--mono-40)"} size={24} />
-             <span className="stat-label">SYSTEM ANOMALIES</span>
-             <span className="stat-value" style={{ color: anomalies.length > 0 ? 'var(--accent-rose)' : 'inherit' }}>{anomalies.length}</span>
-             <span className="stat-delta">{anomalies.length > 0 ? "ACTION REQUIRED" : "INTEGRITY SECURE"}</span>
+            <div className={`glass-card anomaly-card animate-reveal delay-3 ${anomalies.length > 0 ? 'active' : ''}`}>
+               <AlertCircle color={anomalies.length > 0 ? "var(--accent-rose)" : "var(--mono-40)"} size={24} />
+               <span className="stat-label">SYSTEM ANOMALIES</span>
+               <span className="stat-value text-rose">{anomalies.length}</span>
+               <span className="stat-delta">{anomalies.length > 0 ? "ACTION REQUIRED" : "INTEGRITY SECURE"}</span>
+            </div>
           </div>
 
           {/* Asset Breakdown - Now dynamic height */}
@@ -434,7 +441,13 @@ export default function Dashboard() {
         .user-email { font-size: 0.8rem; font-weight: 700; color: var(--mono-100); word-break: break-all; }
         .btn-signout { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--mono-40); font-size: 0.7rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition-smooth); }
         .btn-signout:hover { color: var(--accent-rose); border-color: var(--accent-rose); background: rgba(244, 63, 94, 0.05); }
+        
+        /* Responsive Grid System */
         .dashboard-main { flex: 1; padding: 4rem 5rem; overflow-y: auto; max-height: 100vh; position: relative; z-index: 10; transition: padding 0.4s var(--ease-out); min-width: 0; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        .grid-full-width { grid-column: 1 / -1; }
+        .stats-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        
         .dashboard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem; flex-wrap: wrap; gap: 2rem; }
         .header-title { font-size: 3rem; margin-bottom: 0.5rem; }
         .header-subtitle { color: var(--mono-40); font-size: 1.1rem; }
@@ -451,8 +464,11 @@ export default function Dashboard() {
         .anomaly-card.active { border-color: rgba(244, 63, 94, 0.3); background: rgba(244, 63, 94, 0.03); }
         .stat-label { font-size: 0.65rem; font-weight: 900; letter-spacing: 0.1em; color: var(--mono-40); }
         .stat-value { font-size: 2.25rem; font-weight: 900; color: var(--mono-100); overflow: hidden; text-overflow: ellipsis; }
+        .text-amber { color: var(--accent-amber) !important; }
+        .text-rose { color: var(--accent-rose) !important; }
         .stat-delta { font-size: 0.65rem; font-weight: 700; color: var(--mono-60); }
-        .breakdown-card { padding: 2.5rem; min-width: 0; grid-column: 4; }
+        .breakdown-card { padding: 2.5rem; min-width: 0; grid-column: span 1; }
+        .ledger-card { padding: 3rem; min-width: 0; grid-column: span 2; }
         .breakdown-list { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 2.5rem; }
         .breakdown-item { display: flex; flex-direction: column; gap: 0.75rem; }
         .item-info { display: flex; justify-content: space-between; font-size: 0.85rem; gap: 10px; }
@@ -460,7 +476,6 @@ export default function Dashboard() {
         .item-value { color: var(--mono-100); font-weight: 800; }
         .progress-bg { height: 4px; background: rgba(255, 255, 255, 0.03); border-radius: 2px; overflow: hidden; }
         .progress-fill { height: 100%; border-radius: 2px; }
-        .ledger-card { padding: 3rem; min-width: 0; }
         .btn-purge { background: transparent; border: none; color: var(--accent-rose); font-size: 0.7rem; font-weight: 900; letter-spacing: 0.1em; cursor: pointer; padding: 10px 16px; border: 1px solid rgba(244, 63, 94, 0.2); border-radius: var(--radius-sm); transition: var(--transition-smooth); display: flex; align-items: center; white-space: nowrap; }
         .btn-purge:hover { background: rgba(244, 63, 94, 0.1); border-color: var(--accent-rose); transform: scale(1.05); }
         .table-wrapper { margin: 0 -3rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -491,39 +506,55 @@ export default function Dashboard() {
         .form-group label { font-size: 0.6rem; font-weight: 900; color: var(--mono-40); letter-spacing: 0.1em; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-        .grid-span-3 { grid-column: span 3; }
-        .grid-span-4 { grid-column: span 4; }
-
         @media (max-width: 1400px) {
           .dashboard-main { padding: 3rem 2rem; }
           .header-title { font-size: 2.25rem; }
+          .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+          .breakdown-card, .ledger-card { grid-column: span 2; }
         }
 
         @media (max-width: 1200px) {
-          .grid-span-3, .grid-span-4 { grid-column: span 2; }
-          .breakdown-card { grid-column: auto; }
           .dashboard-sidebar { 
             position: fixed; 
             height: 100vh; 
-            background: var(--mono-5);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
             box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+            transition: transform 0.4s var(--ease-out), width 0.4s var(--ease-out);
           }
-          .sidebar-closed .dashboard-sidebar { transform: translateX(-100%); width: 0 !important; padding: 0; overflow: hidden; }
-          .sidebar-closed .dashboard-main { margin-left: 0; }
-          .sidebar-toggle-btn { right: -40px; }
+          .sidebar-closed .dashboard-sidebar { 
+            transform: translateX(-100%); 
+            width: 80px !important; /* Keep width for the toggle button area if needed */
+          }
+          .sidebar-closed .sidebar-toggle-btn {
+            right: -40px;
+            background: var(--mono-100);
+            color: var(--mono-0);
+          }
+          .sidebar-toggle-btn { 
+            right: -12px;
+            background: var(--mono-100);
+            color: var(--mono-0);
+            width: 32px;
+            height: 32px;
+          }
         }
 
         @media (max-width: 768px) {
           .header-title { font-size: 1.75rem; }
+          .dashboard-main { padding: 2rem 1.5rem; }
           .header-actions { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 100; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); padding: 1rem; border-radius: 50px; border: 1px solid var(--border-strong); width: fit-content; }
           .btn-text { display: none; }
           .btn-mobile-icon { border-radius: 50% !important; width: 50px; height: 50px; padding: 0 !important; justify-content: center; }
-          .grid-span-3, .grid-span-4 { grid-column: span 1; }
+          .dashboard-grid, .stats-row { grid-template-columns: 1fr; }
+          .breakdown-card, .ledger-card { grid-column: span 1; }
           .chart-wrapper { height: 250px; }
           .stat-card, .anomaly-card { padding: 1.5rem; }
           .ledger-table th, .ledger-table td { padding: 1rem 1.5rem; }
           .cell-desc { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
           .btn-purge { font-size: 0.6rem; padding: 8px 12px; }
+          .chart-card { padding: 1.5rem; }
+          .metric-value { font-size: 1.25rem; }
         }
       `}</style>
 

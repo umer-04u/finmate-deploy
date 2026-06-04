@@ -4,9 +4,9 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 try:
-    from app.routers import transactions, analytics
+    from app.routers import transactions, analytics, chat
 except ImportError:
-    from .routers import transactions, analytics
+    from .routers import transactions, analytics, chat
 
 app = FastAPI(
     title="FINMATE API",
@@ -35,6 +35,7 @@ app.add_middleware(
 # Include Routers
 app.include_router(transactions.router, prefix="/api/transactions", tags=["Transactions"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"])
+app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 
 # Serve Static Files (for combined deployment)
 # To use this: Build frontend, copy 'dist' content to 'backend/static'

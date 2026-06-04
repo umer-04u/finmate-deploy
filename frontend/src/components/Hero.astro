@@ -142,7 +142,7 @@ import { ArrowRight, ChevronDown, Sparkles } from 'lucide-react';
   }
 
   .hero-title {
-    font-size: clamp(4rem, 10vw, 7.5rem);
+    font-size: clamp(3rem, 10vw, 7.5rem);
     line-height: 0.9;
     margin-bottom: 3.5rem;
     letter-spacing: -0.05em;
@@ -199,6 +199,7 @@ import { ArrowRight, ChevronDown, Sparkles } from 'lucide-react';
   .cta-wrapper {
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
   }
 
   .scroll-indicator {
@@ -232,9 +233,18 @@ import { ArrowRight, ChevronDown, Sparkles } from 'lucide-react';
   }
 
   @media (max-width: 1024px) {
-    .monolith-hero { padding: 0 2rem; }
-    .meta-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .hero-title { font-size: 4rem; }
-    .scroll-indicator { left: 2rem; }
+    .monolith-hero { padding: 8rem 2rem 4rem; align-items: flex-start; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .hero-title { font-size: 4rem; margin-bottom: 2rem; }
+    .scroll-indicator { display: none; }
+    .hero-desc { font-size: 1.1rem; }
+  }
+
+  @media (max-width: 640px) {
+    .meta-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 3rem; }
+    .cta-wrapper { gap: 1rem; }
+    .cta-wrapper a { width: 100%; justify-content: center; }
+    .top-meta { flex-wrap: wrap; gap: 1rem; }
   }
 </style>

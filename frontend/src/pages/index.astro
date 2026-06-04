@@ -16,8 +16,8 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 			<div class="nav-links-wrapper">
 				<div class="nav-links">
 					<a href="/platform" class="nav-link">Platform</a>
-					<a href="/intelligence" class="nav-link">Intelligence</a>
 					<a href="/sovereignty" class="nav-link">Sovereignty</a>
+					<a href="/intel" class="nav-link">Intelligence</a>
 				</div>
 				<a href="#auth" class="btn-premium" style="padding: 10px 20px; font-size: 0.75rem;">
 					INITIALIZE
@@ -35,13 +35,13 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 				<p class="section-subtitle">Beyond simple tracking. We provide the architectural framework for your financial legacy.</p>
 			</div>
 
-			<div class="bento-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
-				<div class="glass-card feature-card animate-reveal" style="grid-column: span 2; padding: 3rem;">
+			<div class="features-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+				<div class="glass-card feature-card animate-reveal grid-full-width" style="padding: 3rem;">
 					<Zap class="feature-icon" color="var(--accent-primary)" />
 					<h3>Real-time Synthesis</h3>
 					<p>Experience zero-latency synchronization across all your financial nodes. Your data, processed at the speed of thought.</p>
 				</div>
-				<div class="glass-card feature-card animate-reveal delay-1" style="grid-column: span 2; padding: 3rem;">
+				<div class="glass-card feature-card animate-reveal delay-1 grid-full-width" style="padding: 3rem;">
 					<ShieldCheck class="feature-icon" color="var(--accent-emerald)" />
 					<h3>Sovereign Security</h3>
 					<p>Military-grade AES-256 encryption combined with our proprietary Zero-Knowledge architecture ensures only you hold the keys.</p>
@@ -51,8 +51,8 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 					<h4>AI Narrative</h4>
 					<p>Transform raw transactions into meaningful insights with our neural classification engine.</p>
 				</div>
-				<div class="glass-card feature-card animate-reveal delay-3" style="grid-column: span 3; padding: 2.5rem; display: flex; align-items: center; gap: 3rem;">
-					<div style="flex: 1;">
+				<div class="glass-card feature-card animate-reveal delay-3 grid-span-2" style="padding: 2.5rem; display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;">
+					<div style="flex: 1; min-width: 250px;">
 						<Lock class="feature-icon" color="var(--accent-rose)" />
 						<h4>Immutable Privacy</h4>
 						<p>Your data never leaves the encrypted vault. We process everything locally in your browser environment for maximum privacy.</p>
@@ -211,6 +211,14 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 		margin: 0 auto;
 	}
 
+	.feature-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		text-align: left;
+	}
+
 	.feature-card h3, .feature-card h4 {
 		margin: 1.5rem 0 1rem;
 		font-size: 1.5rem;
@@ -225,6 +233,17 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 		width: 40px;
 		height: 40px;
 		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.feature-card {
+			align-items: center;
+			text-align: center;
+			padding: 2.5rem 1.5rem !important;
+		}
+		.feature-card p {
+			font-size: 0.95rem;
+		}
 	}
 
 	.vault-graphic {
@@ -336,11 +355,30 @@ import { ShieldCheck, Zap, BarChart3, Lock } from 'lucide-react';
 		letter-spacing: 0.05em;
 	}
 
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .grid-full-width { grid-column: span 3; }
+  .grid-span-2 { grid-column: span 2; }
+
 	@media (max-width: 1024px) {
 		.premium-nav { padding: 1.5rem 2rem; }
 		.nav-links { display: none; }
 		.footer-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
 		.section-title { font-size: 2.5rem; }
 		.auth-container { padding: 3rem 1.5rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .grid-full-width, .grid-span-2 { grid-column: span 1; }
+    .features-section { padding: 6rem 1.5rem; }
+    .section-header { margin-bottom: 4rem; }
 	}
+
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .premium-footer { padding: 4rem 1.5rem; }
+  }
 </style>
