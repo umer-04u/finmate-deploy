@@ -15,6 +15,9 @@ def merge_and_process_transactions(new_df: pd.DataFrame, user_id: str) -> dict:
     learned_mappings = get_category_learned_mappings(user_id)
 
     if not new_df.empty:
+        # Ensure description exists for categorization
+        if "description" not in new_df.columns:
+             return {"error": "No description column found in data"}
         new_df = categorize_transactions(new_df, learned_mappings)
 
     existing_data = load_transactions(user_id)
@@ -35,12 +38,29 @@ def merge_and_process_transactions(new_df: pd.DataFrame, user_id: str) -> dict:
              
         combined_df["description"] = combined_df["description_for_cat"]
         combined_df = categorize_transactions(combined_df, learned_mappings)
-        combined_df = combined_df.drop_duplicates(subset=['date', 'original_description', 'amount'])
+        
+        # Safe duplicate removal
+        dedup_cols = ['date', 'amount']
+        if 'original_description' in combined_df.columns:
+            dedup_cols.append('original_description')
+        elif 'description' in combined_df.columns:
+            dedup_cols.append('description')
+            
+        combined_df = combined_df.drop_duplicates(subset=dedup_cols)
         combined_df.drop(columns=["description_for_cat"], inplace=True, errors="ignore")
     else:
         combined_df = new_df
         if not combined_df.empty:
             combined_df['date'] = pd.to_datetime(combined_df['date'])
+            # Ensure categorization happened even if existing_df was empty
+            if "type" not in combined_df.columns:
+                combined_df = categorize_transactions(combined_df, learned_mappings)
+
+    if combined_df.empty:
+        return {
+            "transactions": [],
+            "summary": {"total_income": 0, "total_expenses": 0, "savings_rate": 0, "anomalies_detected": 0}
+        }
 
     combined_df = detect_anomalies(combined_df)
     combined_df = combined_df.sort_values(by='date', ascending=False)
@@ -52,10 +72,16 @@ def merge_and_process_transactions(new_df: pd.DataFrame, user_id: str) -> dict:
     
     transactions_list = combined_df.to_dict(orient='records')
     # Save to Supabase and get the records back (with IDs)
-    transactions_list = save_transactions(transactions_list, user_id)
-
-    # Re-sort after save because upsert might return in different order
-    transactions_list.sort(key=lambda x: x['date'], reverse=True)
+    saved_txs = save_transactions(transactions_list, user_id)
+    
+    if saved_txs is not None:
+        transactions_list = saved_txs
+        # Re-sort after save because upsert might return in different order
+        transactions_list.sort(key=lambda x: x['date'], reverse=True)
+    else:
+        import logging
+        logging.warning("save_transactions returned None, using local transactions_list without DB IDs")
+        transactions_list.sort(key=lambda x: x['date'], reverse=True)
 
     result = {
         "transactions": transactions_list,

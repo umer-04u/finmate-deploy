@@ -13,19 +13,23 @@ ESSENTIAL_CATEGORIES = [
 def detect_anomalies(df: pd.DataFrame) -> pd.DataFrame:
     """
     Detects anomalies with context awareness and high sensitivity.
-    - Protects essential categories from high-amount flagging.
-    - Detects small variations (even 1 Rs) in routine expenses.
-    - Uses category-specific baselines.
     """
+    if df.empty:
+        return df
+
     if "is_anomaly" not in df.columns:
         df["is_anomaly"] = False
     if "anomaly_reason" not in df.columns:
         df["anomaly_reason"] = None
 
+    # Safety check for required 'type' column
+    if "type" not in df.columns:
+        return df
+
     # Only check expense transactions
     expenses = df[df["type"] == "expense"].copy()
 
-    if len(expenses) < 5: # Reduced minimum for early detection
+    if len(expenses) < 5: 
         return df
 
     expenses["abs_amount"] = expenses["amount"].abs()

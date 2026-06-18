@@ -22,8 +22,13 @@ def save_transactions(transactions: list, user_id: str):
             tx['id'] = str(uuid.uuid4())
         cleaned_txs.append(tx)
 
-    response = db_client.table("transactions").upsert(cleaned_txs).execute()
-    return response.data
+    try:
+        response = db_client.table("transactions").upsert(cleaned_txs).execute()
+        return response.data
+    except Exception as e:
+        import logging
+        logging.error(f"Supabase upsert failed: {str(e)}")
+        raise e
 
 def delete_all_transactions(user_id: str):
     db_client.table("transactions").delete().eq("user_id", user_id).execute()

@@ -2,7 +2,18 @@ import pandas as pd
 import re
 import joblib
 import os
+import logging
 
+logger = logging.getLogger(__name__)
+
+# Try to load the trained categorizer model
+try:
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'saved_models', 'categorizer_model.joblib')
+    ML_CATEGORIZER = joblib.load(model_path)
+    logger.info("Successfully loaded ML Categorizer model.")
+except Exception as e:
+    logger.warning(f"Failed to load ML Categorizer, falling back to regex rules. Error: {e}")
+    ML_CATEGORIZER = None
 
 RULES = {
     # 1. Income (High Priority)
@@ -65,15 +76,41 @@ def clean_text(text):
     return text.strip()
 
 
-def rule_category(clean_desc, original_desc):
+def rule_category(clean_desc, original_desc, tx_type=None):
+    # 1. User specified "expense" should rarely be "Income" unless it's a refund
+    # We use tx_type to prevent common "Income" misclassifications for manual expenses
+    
+    # Try ML Model first if available
+    if ML_CATEGORIZER is not None and clean_desc:
+        try:
+            # Predict expects an iterable of strings
+            prediction = ML_CATEGORIZER.predict([clean_desc])[0]
+            # Use predict_proba to only accept confident predictions
+            probs = ML_CATEGORIZER.predict_proba([clean_desc])[0]
+            confidence = max(probs)
+            
+            # If it's an expense but ML says Income, be MORE skeptical (require 85% confidence)
+            threshold = 0.85 if (tx_type == "expense" and prediction == "Income") else 0.6
+            
+            if confidence > threshold:
+                return prediction
+        except Exception as e:
+            logger.warning(f"ML Prediction failed: {e}")
+
+    # Fallback to Regex Rules
     # Try cleaned first
     for pattern, cat in COMPILED_RULES:
         if pattern.search(clean_desc):
+            # Same logic: don't allow "Income" category for explicit "expense" type
+            if tx_type == "expense" and cat == "Income":
+                continue
             return cat
     
     # Try original if cleaned failed (to catch markers that might be stripped)
     for pattern, cat in COMPILED_RULES:
         if pattern.search(str(original_desc).upper()):
+            if tx_type == "expense" and cat == "Income":
+                continue
             return cat
 
     return "Other/Uncategorized"
@@ -116,18 +153,7 @@ def categorize_transactions(df: pd.DataFrame, learned_mappings: dict = None) -> 
     # 1. Clean for matching
     df["clean_description"] = df["description"].apply(clean_text)
 
-    # 2. Get Category (Passing both for better matching)
-    def get_final_category(row):
-        clean = row["clean_description"]
-        # Priority 1: User learned mappings
-        if learned_mappings and clean in learned_mappings:
-            return learned_mappings[clean]
-        # Priority 2: Rules
-        return rule_category(clean, row["description"])
-
-    df["category"] = df.apply(get_final_category, axis=1)
-
-    # 3. Determine Type (Respecting Manual Input)
+    # 2. Determine Type FIRST (Respecting Manual Input)
     def determine_type(row):
         # If 'type' is already provided (from manual entry), respect it
         if "type" in row and row["type"] in ["income", "expense"]:
@@ -141,17 +167,16 @@ def categorize_transactions(df: pd.DataFrame, learned_mappings: dict = None) -> 
         if "/CR/" in desc or " CR " in desc or desc.startswith("CR "):
             return "income"
             
-        # Priority 2: Category defaults
-        if row["category"] == "Income":
-            return "income"
-        if row["category"] in ["Food & Dining", "Transportation", "Utilities", "Shopping & Groceries", "Health & Fitness", "Entertainment", "Housing"]:
-            return "expense"
-            
-        # Priority 3: Amount sign
-        if row["amount"] < 0:
-            return "expense"
+        # Priority 2: Amount sign (Amount was checked for required cols)
+        # Handle cases where amount might be 0 but still has a sign
+        try:
+            amt = float(row["amount"])
+            if amt < 0: return "expense"
+            if amt > 0: return "income"
+        except:
+            pass
         
-        return "income" if row["amount"] > 0 else "expense"
+        return "expense" # Default
 
     df["amount"] = pd.to_numeric(df["amount"], errors="coerce").fillna(0)
     df["type"] = df.apply(determine_type, axis=1)
@@ -159,11 +184,36 @@ def categorize_transactions(df: pd.DataFrame, learned_mappings: dict = None) -> 
     # Store absolute value for amount now that type is determined
     df["amount"] = df["amount"].abs()
 
-    # 4. Generate User-Friendly Description
+    # 3. Get Category (Passing type for better matching)
+    def get_final_category(row):
+        clean = row["clean_description"]
+        # Priority 1: User learned mappings
+        if learned_mappings and clean in learned_mappings:
+            return learned_mappings[clean]
+        
+        # Priority 2: Rules (Now guided by the determined type)
+        return rule_category(clean, row["description"], row["type"])
+
+    df["category"] = df.apply(get_final_category, axis=1)
+
+    # 4. Extract Entities (NER)
+    try:
+        from app.ml.ner import extract_entities
+        entities_df = df["description"].apply(lambda x: pd.Series(extract_entities(x)))
+        df = pd.concat([df, entities_df], axis=1)
+    except Exception as e:
+        logger.warning(f"Entity extraction failed: {e}")
+
+    # 5. Generate User-Friendly Description
     df["original_description"] = df["description"]
-    df["description"] = df.apply(
-        lambda r: generate_smart_description(r["original_description"], r["category"], r["type"]), 
-        axis=1
-    )
+    def get_smart_desc(row):
+        # If NER found a merchant name, use it for the description
+        # Using .get() and ensuring we check for a single scalar value
+        merchant = row.get("merchant_name")
+        if isinstance(merchant, str) and merchant.strip() != "":
+             return merchant
+        return generate_smart_description(row["original_description"], row["category"], row["type"])
+    
+    df["description"] = df.apply(get_smart_desc, axis=1)
 
     return df

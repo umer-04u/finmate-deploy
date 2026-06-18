@@ -7,8 +7,10 @@ FINMATE is a high-performance, premium financial intelligence dashboard designed
 - **FinMate AI Assistant:** A direct conversational link to your finances powered by **Groq LPU™** and **Llama 3.1**. Ask complex queries and get instant, markdown-formatted advice.
 - **Context-Aware Intelligence:** The AI doesn't just talk; it sees. It has real-time access to your expenditure totals, top sectors, and detected anomalies for personalized insights.
 - **Dedicated Intelligence Console:** A distraction-free, fullscreen neural interface for deep financial planning and analysis.
-- **Dynamic Data Ingestion:** Robust CSV/Excel parsing for various bank statement formats with automated column mapping.
-- **Anomaly Detection:** Utilizes **Isolation Forests** (Machine Learning) to identify unusual spending patterns and potential financial risks.
+- **Dynamic Data Ingestion:** Highly resilient CSV/Excel parser supporting complex multi-bank formats (including SBI and Bandhan Bank). Automatically skips bank metadata, handles multi-line transaction rows, and corrects non-standard numeric formats.
+- **Custom-Trained ML Categorizer:** Utilizes a TF-IDF + Random Forest model trained specifically on your manual corrections for high-precision, personalized transaction labeling.
+- **Automated Entity Extraction (NER):** Heuristically extracts **Merchant Name**, **Payment Method** (UPI, Card, Cash), and **Location** from raw transaction narratives.
+- **Anomaly Detection:** Utilizes **Isolation Forests** (Machine Learning) to identify unusual spending patterns and potential financial risks, with context-aware thresholds for essential expenses.
 - **Bento Grid Dashboard:** A high-fidelity, interactive dashboard with adaptive layouts for mobile, tablet, and desktop.
 - **Manual Entry Protocol:** Add manual transactions for cash expenses or corrections to keep your records perfectly accurate.
 - **Sovereign Security:** Strictly authenticated sessions with Supabase and Row Level Security (RLS), ensuring data sovereignty.
